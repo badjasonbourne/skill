@@ -51,6 +51,8 @@ description: The best practice of prototyping in paper and converting prototypes
     - 内容区有最大宽度约束 → `max-w-[720px]`
     - 网格单元有明确宽高比 → 保留固定尺寸或使用 `aspect-square`
 
+IMPORTANT: Paper中的颜色仅做参考，请使用代码仓库最相近且符合语义的design token。比如Paper设计稿中使用的灰色，但是最接近的design token是白色的，那也请使用白色的design token。
+
 ### 绝对禁止添加的内容
 1. 设计稿（Paper）是视觉决策的**唯一事实来源**。**不得**添加：
     - 设计稿中不存在的阴影
