@@ -17,6 +17,8 @@ disable-model-invocation: true
 
 ## 事件语义（命名习惯 `{语义}_{phase}`）
 
+CRITICAL: 以下事件并非在所有Agent SDK中都能找到对应的原始事件，请根据实际情况酌情选择。**请勿因此擅自推导/组合事件，忽略即可**
+
 ### 文本与推理
 
 | 事件 | 含义 |
@@ -76,6 +78,9 @@ disable-model-invocation: true
 - 与 SDK 事件**一一对应**，不合并、不拆分、不派生新事件
 - 未知 SDK 事件应显式失败，勿静默丢弃
 - 适配层零业务逻辑
+
+**特殊情况**:
+- native_tool的相关事件可能仅存在于PydanticAI，LangChain/Agno/GoogleADK可能是不存在的，忽略即可。
 
 ## 参考实现
 
