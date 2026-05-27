@@ -1,12 +1,11 @@
 ---
-name: agent-event-ui-adapter
-description: Correctly designs provider-agnostic agent event adapter for UI consumption.
-disable-model-invocation: true
+name: pydanticai-ui-adapter
+description: Correctly designs pydanticai agent event adapter for UI consumption. ONLY use the skill when actively triggered by the user.
 ---
 
-# Agent Event Adapter
+# PydanticAI Agent UI Adapter
 
-将 Agent SDK 的流式事件**重命名 + 裁字段**后透传给前端。
+将 PydanticAI SDK 的流式事件**重命名 + 裁字段**后透传给前端。
 
 ## 适配器只做两件事
 
@@ -17,70 +16,68 @@ disable-model-invocation: true
 
 ## 事件语义（命名习惯 `{语义}_{phase}`）
 
-CRITICAL: 以下事件并非在所有Agent SDK中都能找到对应的原始事件，请根据实际情况酌情选择。**请勿因此擅自推导/组合事件，忽略即可**
-
 ### 文本与推理
 
-| 事件 | 含义 |
-|------|------|
-| `text_start` | 助手回复文本块开始 |
-| `text_delta` | 回复文本增量 |
-| `text_end` | 回复文本块结束 |
-| `reasoning_start` | 模型思考/推理块开始 |
-| `reasoning_delta` | 思考内容增量 |
-| `reasoning_end` | 思考块结束 |
+
+| 事件                | 含义                  |
+| ----------------- | ------------------- |
+| `text_start`      | python 开始输出一段用户可见文本 |
+| `text_delta`      | 输出增量的用户可见文本         |
+| `text_end`        | 用户可见文本输出完毕             |
+| `reasoning_start` | 开始输出一段Agent的推理文本          |
+| `reasoning_delta` | 输出增量的Agent的推理文本              |
+| `reasoning_end`   | Agent的推理文本输出完毕               |
+
 
 ### 工具调用（参数流）
 
 模型在生成工具调用参数时的流式片段（尚未执行）。
 
-| 事件 | 含义 |
-|------|------|
-| `toolcall_start` | 普通工具调用参数块开始 |
-| `toolcall_delta` | 工具名/参数 JSON 增量 |
-| `toolcall_end` | 普通工具调用参数块结束 |
-| `native_toolcall_start` | 内置/原生工具调用参数块开始 |
-| `native_toolcall_delta` | 原生工具调用参数增量 |
-| `native_toolcall_end` | 原生工具调用参数块结束 |
+
+| 事件               | 含义             |
+| ---------------- | -------------- |
+| `toolcall_start` | 开始输出一个工具调用的入参文本    |
+| `toolcall_delta` | 输出增量的工具调用的入参文本 |
+| `toolcall_end`   | 工具调用的入参输出完毕    |
+
 
 ### 工具执行与结果
 
 实际执行工具或收到返回时发出（与上面的参数流阶段区分）。
 
-| 事件 | 含义 |
-|------|------|
-| `tool_execution_start` | 开始执行 function 类工具 |
-| `tool_execution_end` | function 工具执行结束 |
-| `tool_result_start` | output 类工具调用开始 |
-| `tool_result_end` | output 类工具结果就绪 |
-| `native_tool_execution_start` | 开始执行内置工具 |
-| `native_tool_execution_end` | 内置工具执行结束 |
-| `native_toolresult_start` | 原生工具返回块开始 |
-| `native_toolresult_end` | 原生工具返回块结束 |
+
+| 事件                        | 含义          |
+| ------------------------- | ----------- |
+| `tool_execution_start`    | 开始执行工具函数函数体 |
+| `tool_execution_end`      | 工具函数函数体执行完毕 |
+| `structured_answer_start` | 结构化输出开始   |
+| `structured_answer_end`   | 结构化输出完毕   |
+
 
 ### 附件与其它块
 
-| 事件 | 含义 |
-|------|------|
-| `file_start` / `file_end` | 文件类内容块的开始与结束 |
+
+| 事件                                    | 含义              |
+| ------------------------------------- | --------------- |
+| `file_start` / `file_end`             | 文件类内容块的开始与结束    |
 | `compaction_start` / `compaction_end` | 上下文压缩/摘要块的开始与结束 |
-| `final_result_ready` | 结构化最终结果已就绪（尚非整轮结束） |
+| `final_output_detected`               | 检测到当前是最终输出      |
+
 
 ### 运行生命周期
 
-| 事件 | 含义 |
-|------|------|
+
+| 事件              | 含义              |
+| --------------- | --------------- |
 | `run_completed` | 本轮 Agent 运行成功结束 |
-| `run_failed` | 本轮运行失败 |
+| `run_failed`    | 本轮运行失败          |
+
 
 ## 设计原则
 
 - 与 SDK 事件**一一对应**，不合并、不拆分、不派生新事件
 - 未知 SDK 事件应显式失败，勿静默丢弃
 - 适配层零业务逻辑
-
-**特殊情况**:
-- native_tool的相关事件可能仅存在于PydanticAI，LangChain/Agno/GoogleADK可能是不存在的，忽略即可。
 
 ## 参考实现
 
