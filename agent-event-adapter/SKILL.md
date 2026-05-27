@@ -81,4 +81,4 @@ description: Correctly designs pydanticai agent event adapter for UI consumption
 
 ## 参考实现
 
-可参考 [reference/agent_ui_adapter.py](reference/agent_ui_adapter.py)。但请注意，该文件是 **PydanticAI** 的 UI 适配器示例，展示事件重命名与字段裁剪的写法。开发时请按**具体 Agent SDK** 自行实现映射（如 Google ADK、LangChain），不要照搬其中的 `isinstance` 分支与 import。
+可参考 [reference/agent_ui_adapter.py](reference/agent_ui_adapter.py)。但请注意，该文件是 **PydanticAI** 的 UI 适配器示例，展示事件重命名与字段裁剪的写法。如果你只是参考adapter的设计，开发时请按 **具体 Agent SDK** 自行实现映射（如 Google ADK、LangChain），不要照搬其中的 `isinstance` 分支与 import。
