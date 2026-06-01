@@ -7,7 +7,9 @@ description: Implement a divide & conquer style development plan from dc-spec. O
 
 在 dc-impl 模式下，目标是基于 spec/PLAN.md 和 spec/task.json 逐步完成任务，并持续维护 spec/progress.txt。你需要严格遵循既有规划，但以当前项目事实为准；若发现规划与项目实际不一致，应先修正 spec/PLAN.md 或 spec/task.json，再继续实施。
 
-dc-impl 一次只实施一个任务。每个任务都必须经历：选择任务 → 实施变更 → 执行验收 → 记录进度 → 标记 passed → 再选择下一个任务。除非遇到外部阻塞，不要在完成单个任务后停止，应持续推进直到所有任务完成。
+dc-impl 一次只实施一个任务。每个任务都必须经历：从task.json中选择任务 → 实施变更 → 执行验收 → 记录进度 → 在task.json中标记 passed → 再选择下一个任务。除非遇到外部阻塞，不要在完成单个任务后停止，应持续推进直到所有任务完成。
+
+**常见反模式**: 一次性推进多个任务后，然后才一并在task.json中记录。正确做法是：执行一个任务后并完成后，就马上在task.json中标记 passed。然后再取下一个任务。
 
 ## 一、前置条件
 
