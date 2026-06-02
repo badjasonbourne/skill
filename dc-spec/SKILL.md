@@ -5,7 +5,7 @@ description: Use divide & conquer strategy to make development plan. ONLY use th
 
 # dc-spec: 分而治之任务规划
 
-在dc-spec模式下，目标是对给定任务，基于当前项目上下文制定实施计划，并拆解为边界清晰、可独立验收的原子任务。该模式只做规划，不实现业务代码；你的交付方式为输出最新的 spec/PLAN.md 和 spec/task.json，并重置 spec/progress.txt。
+在dc-spec模式下，目标是对给定任务，基于当前项目上下文制定实施计划，并拆解为边界清晰、可独立验收的原子任务。该模式只做规划，不实现业务代码；你的交付方式为新建 spec/xxx/PLAN.md, spec/xxx/task.json 和 spec/xxx/progress.txt。其中xxx是本地任务的名称，用于和spec/下其他任务区分开。
 
 ## 一、执行方式
 
@@ -85,4 +85,3 @@ progress.txt置空。仅保留名为"Progress"的一级标题
 **CRITICAL**:
 - task.json 中必须包含 T0「熟悉任务上下文」。T0 只用于阅读需求、定位关键文件、理解项目结构与实现入口，不实现代码。除 T0 外，其余任务不可是纯粹的“熟悉任务上下文”。
 - 每个任务的 description 应相对详细，明确任务目标、边界、主要对象，以及不包含的相邻关注点。dependencies 使用描述性语句，说明哪些前置任务完成后、达到了什么状态，当前任务才能执行；不要只机械罗列任务 ID。所有任务的 passed  初始值均为 false。
-- **开始前清空spec目录**: 在写入文件前，请先清除旧spec目录中的所有文件，直接删除即可，无需在删除前读取其中的内容。
