@@ -7,9 +7,9 @@ description: ONLY use the skill when actively triggered by the user.
 
 ## PLAN.md 结构
 
-PLAN.md 用于描述整体任务规划，必须包含 Context、Expected Result、Strategy、Phase 模块。
+PLAN.md 用于描述整体任务规划，必须包含 Context、Expected Result、Strategy、Phases 模块。
 
-可根据任务实际灵活添加其他自定义模块，可自行命名，如Current Status、Interface Changes、Data flow、User flow。其中表达流程时，如果合适，请使用文字+Mermaid图表的方式。
+可根据任务实际灵活添加其他自定义模块，可自行命名，如Interface Changes、Data flow、User flow。其中表达流程时，如果合适，请使用文字+Mermaid图表的方式。
 
 CRITICAL:
 - 请记住，PLAN.md的核心目标是确保交接到该任务的同事能准确无误地进行开发。不要有直接的代码实现，你要相信你的同事水平也很高。
