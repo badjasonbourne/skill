@@ -12,7 +12,7 @@ description: Based on conversation, restate the requirement or problem in a stru
 ## 需求简述
 [3-5句话描述需求背景和目标]
 
-## 当前状况/问题
+## 上下文
 1. [...，@文件路径 以提升准确性]。
 2. ...
 
@@ -43,13 +43,16 @@ description: Based on conversation, restate the requirement or problem in a stru
 5. **上下文**：列出需要理解的关键文件及其作用
 6. **工作步骤**：按执行顺序列出，每步独立可完成
 
+IMPORTANT: 除了需求简述、当前状况/问题、预期效果外，可在你认为必要时添加其他合理的Section，比如时序图、数据流等。
+
+以下是一个Example：
 <example>
 请添加用户登出功能，支持清除本地缓存和服务端会话：
 
 ## 需求简述
 当前应用没有登出功能，用户无法主动退出登录状态。需要在用户设置页添加登出按钮，点击后清除本地存储的 token 并通知服务端销毁会话。
 
-## 当前状况/问题
+## 上下文
 1. @src/pages/Settings.tsx 没有登出入口。
 2. @src/services/auth.ts 只有登录逻辑，缺少登出 API 调用。
 3. 服务端 @app/api/auth.py 没有登出接口。
