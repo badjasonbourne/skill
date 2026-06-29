@@ -1,12 +1,11 @@
 ---
 name: evolve-skill
 description: Propose evolution directions for an existing SKILL after a task, based on its current content and the user's requirements, then wait for approval before editing. ONLY use the skill when actively triggered by the user.
-disable-model-invocation: true
 ---
 
 # 进化 SKILL
 
-在一次任务结束后，帮助打磨某个已有的 SKILL。读取目标 SKILL，结合刚结束的任务暴露出的问题进行反思，然后**把候选的进化方向呈现给用户挑选**。在用户认可之前，绝不修改目标 SKILL。
+在一次任务结束后，帮助打磨某个已有的 SKILL。读取目标 SKILL，结合刚结束的任务暴露出的问题进行反思，然后**把候选的进化方向呈现给用户挑选**。在用户认可之前，绝不修改目标 SKILL。 
 
 ## 硬性规则
 
@@ -62,6 +61,6 @@ disable-model-invocation: true
 
 ## 注意
 
-- 优先选用能解决真实问题的最小改动；抵制扩张成"全面重写"的冲动。
+- 优先选用能解决真实问题的合理改动；抵制扩张成"全面重写"的冲动。
 - 如果某条方向会让 `SKILL.md` 超过约 500 行，建议把细节挪进一个一级深度的引用文件，而不是堆在主文件里。
 - 用词与目标 SKILL 既有的术语保持一致。
