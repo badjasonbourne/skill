@@ -1,6 +1,47 @@
 # 信息架构
 
 
+## 先问用户要完成什么
+
+> 先用一句话说清楚用户打开这个界面是为了做什么，再决定展示什么。
+
+### 为什么
+
+界面不是数据库字段的展板。系统里有什么，不等于用户此刻需要看什么。先从后端对象、内部状态、审计字段出发，容易把界面做成「管理后台」；先从用户任务出发，界面才会知道主次。
+
+### 反例 → 改进
+
+反例 —— 用户点击「连接 MCP」，界面却按 API Key 管理页来组织：
+
+```text
+<modal title="Noesis API Key">
+  <field>API key</field>
+  <meta>Created at</meta>
+  <meta>Last used</meta>
+  <button>Regenerate key</button>
+</modal>
+```
+
+改进 —— 先承认用户任务是「把 MCP 装进 Agent」，API Key 只是配置里的一项：
+
+```text
+<modal title="Install Noesis MCP">
+  <code>MCP server config</code>
+  <field>NOESIS_API_KEY</field>
+  <button>Copy config</button>
+</modal>
+```
+
+### 判断法
+
+请先在心里想清楚：「用户来这里是为了 ____。」 每个信息块都问一遍：「它能直接帮用户完成这个任务吗？」 不能，就移除、降级，或放到更深的位置。
+
+后端字段、内部状态、审计信息不是不能出现；只有当它们直接帮用户完成当前任务时，才应该进入主界面。
+
+连接 / 安装类弹窗最常犯这个错：如果标题、主按钮、第一屏都在讲 token / key / secret，而入口文案在讲 connect / install，多半是把「连接工具」做成了「管理凭据」——先讲清「怎么接上」，再把 key 放回它该在的配置位置。
+
+---
+
 ## 渐进式披露
 
 > 每一屏只暴露当前步骤必需的最小信息，次要内容推迟或收起。
@@ -33,7 +74,7 @@
 
 ### 判断法
 
-对每个元素问："它是完成当前主行动的必需品吗？" 答案是否 → 推迟、折叠，或移到下一步。
+对每个元素问：「它是完成当前主行动的必需品吗？」 答案是否 → 推迟、折叠，或移到下一步。
 
 ### 不适用
 
@@ -58,6 +99,29 @@
 ```
 
 能推迟或收起的，是与当前主行动**无关**的次要内容：帮助说明、高级设置、上一步的引导语、尚未到达的步骤。
+
+### 配置信息不是越少越好
+
+「做减法」不是把必要配置也藏起来。用户当前要复制、确认、粘贴的配置，应该直接可见；不帮当前任务的信息，才应该拿掉。
+
+反例 —— 连接工具时展示审计信息，却把真正要复制的环境变量藏得很深：
+
+```text
+<connect>
+  <meta>Created at</meta>
+  <meta>Last used</meta>
+  <details>NOESIS_API_KEY</details>
+</connect>
+```
+
+改进 —— 当前任务需要的配置常驻；审计信息不进主界面：
+
+```text
+<connect>
+  <code>MCP config</code>
+  <field>NOESIS_API_KEY</field>
+</connect>
+```
 
 ---
 
@@ -121,6 +185,53 @@
 ```
 
 判断法：列表行尾出现重复的实心/主色按钮 → 改为「整行可点」或「选中 + 单一 CTA」。
+
+---
+
+## 操作跟着对象走
+
+> 操作按钮放在它真正作用的对象旁边；页面级动作才放到页面级操作区。
+
+### 为什么
+
+用户会按空间关系理解语义。按钮离哪个对象近，用户就会认为它操作哪个对象。把局部对象的操作放到 footer，会让人误以为它是整个页面的主操作；把页面主操作塞进局部区域，又会稀释主线。
+
+### 反例 → 改进
+
+反例 —— `Reset` 操作的是 API Key，却被放到弹窗 footer：
+
+```text
+<modal>
+  <section>
+    <field>NOESIS_API_KEY</field>
+    <button>Copy</button>
+  </section>
+  <footer>
+    <button>Reset connection</button>
+    <button>Copy config</button>
+  </footer>
+</modal>
+```
+
+改进 —— `Copy` 和 `Reset` 都操作同一个 API Key，就放在 API Key 这一区；footer 只放弹窗级动作：
+
+```text
+<modal>
+  <section>
+    <field>NOESIS_API_KEY</field>
+    <button>Copy</button>
+    <button>Reset</button>
+  </section>
+  <footer>
+    <button>Close</button>
+    <button>Copy config</button>
+  </footer>
+</modal>
+```
+
+### 判断法
+
+对每个按钮问：「它到底在改谁 / 复制谁 / 删除谁？」 如果答案是某个局部对象，按钮就应该跟着那个对象；如果答案是整个页面、整个表单、整个弹窗，才放到 footer 或页面主操作区。
 
 ---
 
@@ -249,4 +360,4 @@
 
 ### 判断法
 
-对每段说明、placeholder、成功提示问："用户读完会以为之后还能在哪看到 / 用到这条信息？" 若答案与实现不符 → 改文案，或补上真实能力。
+对每段说明、placeholder、成功提示问：「用户读完会以为之后还能在哪看到 / 用到这条信息？」 若答案与实现不符 → 改文案，或补上真实能力。

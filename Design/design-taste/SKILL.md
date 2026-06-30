@@ -1,6 +1,6 @@
 ---
 name: design-taste
-description: A curated, growing catalog of design principles. Use when designing or polishing any Ul surface.
+description: A curated, growing catalog of UI/UX design principles covering information architecture, layout, lists, modals, navigation, clickable affordance, and visual hierarchy. Use when designing, reviewing, or polishing any UI surface.
 ---
 
 # Design Taste
